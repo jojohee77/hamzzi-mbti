@@ -16,13 +16,19 @@ export default function PreResultPage() {
   const [isClient, setIsClient] = useState(false)
 
   useEffect(() => {
+    // 이전 페이지에서 온 것인지 확인
+    const referrer = document.referrer
+    if (!referrer.includes('/quiz')) {
+      router.push('/')
+      return
+    }
+
     setIsClient(true)
-    // MBTI 파라미터 유효성 검사
     if (!mbti || !mbtiTypes.some(type => type.id.toLowerCase() === mbti.toLowerCase())) {
       router.push('/')
       return
     }
-    // localStorage 접근을 클라이언트 사이드로만 제한
+    
     if (typeof window !== 'undefined') {
       const clicked = localStorage.getItem(`coupang_clicked_${mbti}`)
       if (clicked === "true") {
