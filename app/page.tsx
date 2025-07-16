@@ -22,7 +22,7 @@ export default function IntroPage() {
           >
             <Image
               src="/images/start-hamster.png"
-              alt="Hamster holding START sign"
+              alt="햄찌MBTI 시작하기 이미지"
               width={180}
               height={180}
               className="mb-4 sm:mb-6 h-[180px] sm:h-[300px] w-auto object-contain"

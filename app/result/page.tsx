@@ -87,7 +87,7 @@ export default function ResultPage() {
                 >
                   <Image
                     src={`/images/mbti/${type.id.toLowerCase()}.png`}
-                    alt="햄스터"
+                    alt="햄찌MBTI 미리보기 이미지"
                     fill
                     className="object-contain blur-sm hover:blur-md transition-all"
                     priority
