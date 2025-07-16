@@ -17,6 +17,11 @@ export default function PreResultPage() {
 
   useEffect(() => {
     setIsClient(true)
+    // MBTI 파라미터 유효성 검사
+    if (!mbti || !mbtiTypes.some(type => type.id.toLowerCase() === mbti.toLowerCase())) {
+      router.push('/')
+      return
+    }
     // localStorage 접근을 클라이언트 사이드로만 제한
     if (typeof window !== 'undefined') {
       const clicked = localStorage.getItem(`coupang_clicked_${mbti}`)
@@ -118,11 +123,4 @@ export default function PreResultPage() {
       </Card>
     </motion.div>
   )
-}
-
-// 정적 경로 생성
-export function generateStaticParams() {
-  return mbtiTypes.map((type) => ({
-    mbti: type.id.toLowerCase()
-  }))
 } 
