@@ -59,6 +59,18 @@ export default function PreResultPage() {
     )
   }
 
+  // MBTI 파라미터 유효성 검사
+  if (!mbti) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold">잘못된 접근입니다</h2>
+          <p className="mt-2 text-gray-600">MBTI 테스트를 먼저 진행해주세요.</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -106,4 +118,11 @@ export default function PreResultPage() {
       </Card>
     </motion.div>
   )
+}
+
+// 정적 경로 생성
+export function generateStaticParams() {
+  return mbtiTypes.map((type) => ({
+    mbti: type.id.toLowerCase()
+  }))
 } 
