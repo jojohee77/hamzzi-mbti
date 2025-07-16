@@ -161,7 +161,7 @@ export default function ResultPage() {
                     alt={resultData.name}
                     width={300}
                     height={400}
-                    className="mx-auto mb-4 sm:mb-6 w-[250px] sm:w-[300px]"
+                    className="mx-auto mb-4 sm:mb-6 w-[250px] sm:w-[300px] rounded-[2rem]"
                     priority
                   />
                   <h2 className="mb-3 sm:mb-4 text-2xl sm:text-3xl font-bold text-blue-600">
