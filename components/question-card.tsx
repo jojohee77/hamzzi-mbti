@@ -84,7 +84,7 @@ export function QuestionCard({
                 disabled={!currentAnswer}
                 className="w-1/2 py-4 sm:py-5 text-base sm:text-lg bg-gradient-to-r from-blue-500 to-violet-500 hover:from-blue-600 hover:to-violet-600"
               >
-                {isLastQuestion ? "결과 보기" : "다음"}
+                {isLastQuestion ? "링크방문후 결과보기 🎁" : "다음"}
               </Button>
             </div>
           </CardContent>

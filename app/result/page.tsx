@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState, useRef } from "react"
-import { useSearchParams } from "next/navigation"
+import { useSearchParams, useRouter } from "next/navigation"
 import { mbtiTypes, type MbtiTypeData } from "@/lib/mbti-data"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -26,23 +26,84 @@ const item = {
 }
 
 export default function ResultPage() {
+  const router = useRouter()
   const searchParams = useSearchParams()
   const mbti = searchParams.get("mbti")
+  const clicked = searchParams.get("clicked")
   const [resultData, setResultData] = useState<MbtiTypeData | null>(null)
+  const [showResult, setShowResult] = useState<boolean>(false)
   const resultRef = useRef<HTMLDivElement>(null)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    if (mbti) {
-      const data = mbtiTypes.find((type) => type.id === mbti)
-      setResultData(data || null)
-    }
-  }, [mbti])
+    if (!mbti) return
 
-  if (!resultData) {
+    const data = mbtiTypes.find((type) => type.id === mbti)
+    setResultData(data || null)
+    setShowResult(clicked === "true")
+    setIsLoading(false)
+  }, [mbti, clicked])
+
+  const handleCoupangClick = () => {
+    window.open("https://link.coupang.com/a/cFdti6", "_blank")
+    // URL 파라미터로 상태 업데이트
+    router.push(`/result?mbti=${mbti}&clicked=true`)
+  }
+
+  if (isLoading || !resultData) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-pink-50 p-4 text-xl font-semibold text-gray-700">
+      <div className="flex min-h-screen items-center justify-center bg-slate-50 p-4 text-xl font-semibold text-gray-700">
         결과를 불러오는 중...
       </div>
+    )
+  }
+
+  // 결과를 보여주기 전에 쿠팡 링크 클릭 유도 화면
+  if (!showResult) {
+    return (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="flex min-h-screen flex-col items-center justify-center bg-slate-50 p-4"
+      >
+        <Card className="w-full max-w-2xl rounded-xl border-none bg-white shadow-lg">
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl font-bold text-slate-800">
+              결과가 준비되었어요!
+            </CardTitle>
+            <p className="text-slate-600 mt-2">
+              아래 링크를 확인하고 나의 햄찌 성격을 알아보세요!
+            </p>
+            <p className="text-slate-500 text-sm mt-1">
+              (결과를 보기 위해서는 링크를 확인해주세요)
+            </p>
+          </CardHeader>
+          <CardContent className="flex flex-col items-center p-6 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+              {mbtiTypes.slice(0, 6).map((type) => (
+                <div
+                  key={type.id}
+                  className="relative w-32 h-32 sm:w-40 sm:h-40 bg-white rounded-lg overflow-hidden"
+                >
+                  <Image
+                    src={`/images/mbti/${type.id.toLowerCase()}.png`}
+                    alt="햄스터"
+                    fill
+                    className="object-contain blur-sm hover:blur-md transition-all"
+                    priority
+                  />
+                </div>
+              ))}
+            </div>
+            <Button
+              onClick={handleCoupangClick}
+              className="w-full px-6 py-6 text-lg font-semibold text-white bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 transition-all transform hover:scale-105"
+            >
+              링크 확인 후 결과보기 🛍️
+            </Button>
+          </CardContent>
+        </Card>
+      </motion.div>
     )
   }
 
@@ -74,6 +135,7 @@ export default function ResultPage() {
     }
   }
 
+  // 결과 화면
   return (
     <motion.div
       initial={{ opacity: 0 }}

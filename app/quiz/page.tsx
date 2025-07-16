@@ -19,9 +19,11 @@ export default function QuizPage() {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1)
     } else {
-      // Calculate MBTI and navigate to intermediate page
       const mbtiResult = calculateMbti(answers)
-      router.push(`/pre-result?mbti=${mbtiResult}`)
+      // 쿠팡 링크를 새 창에서 열기
+      window.open("https://link.coupang.com/a/cFdti6", "_blank")
+      // clicked=true 파라미터를 추가하여 결과 페이지로 이동
+      router.push(`/result?mbti=${mbtiResult}&clicked=true`)
     }
   }
 

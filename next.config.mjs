@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  output: 'standalone',
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -9,10 +9,6 @@ const nextConfig = {
   },
   images: {
     unoptimized: true,
-  },
-  async exportPathMap(defaultPathMap) {
-    delete defaultPathMap['/pre-result']
-    return defaultPathMap
   },
 }
 
