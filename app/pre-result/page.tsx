@@ -13,12 +13,16 @@ export default function PreResultPage() {
   const searchParams = useSearchParams()
   const mbti = searchParams.get("mbti")
   const [hasClickedCoupang, setHasClickedCoupang] = useState(false)
+  const [isClient, setIsClient] = useState(false)
 
   useEffect(() => {
-    // 로컬 스토리지에서 쿠팡 링크 클릭 여부 확인
-    const clicked = localStorage.getItem(`coupang_clicked_${mbti}`)
-    if (clicked === "true") {
-      router.push(`/result?mbti=${mbti}`)
+    setIsClient(true)
+    // localStorage 접근을 클라이언트 사이드로만 제한
+    if (typeof window !== 'undefined') {
+      const clicked = localStorage.getItem(`coupang_clicked_${mbti}`)
+      if (clicked === "true") {
+        router.push(`/result?mbti=${mbti}`)
+      }
     }
   }, [mbti, router])
 
@@ -32,15 +36,28 @@ export default function PreResultPage() {
   }, [hasClickedCoupang, mbti, router])
 
   const handleCoupangClick = () => {
-    window.open("https://link.coupang.com/a/cFdti6", "_blank")
-    localStorage.setItem(`coupang_clicked_${mbti}`, "true")
-    setHasClickedCoupang(true)
+    if (typeof window !== 'undefined') {
+      window.open("https://link.coupang.com/a/cFdti6", "_blank")
+      localStorage.setItem(`coupang_clicked_${mbti}`, "true")
+      setHasClickedCoupang(true)
+    }
   }
 
   // 랜덤하게 6개의 MBTI 타입 선택
   const randomMbtiTypes = [...mbtiTypes]
     .sort(() => Math.random() - 0.5)
     .slice(0, 6)
+
+  // 서버 사이드 렌더링 시 기본 UI 표시
+  if (!isClient) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold">Loading...</h2>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <motion.div
