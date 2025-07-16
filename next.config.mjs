@@ -10,6 +10,10 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  async exportPathMap(defaultPathMap) {
+    delete defaultPathMap['/pre-result']
+    return defaultPathMap
+  },
 }
 
 export default nextConfig
