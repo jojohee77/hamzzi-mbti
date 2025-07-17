@@ -8,7 +8,12 @@ import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
-import html2canvas from "html2canvas"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
 
 const container = {
   hidden: { opacity: 0 },
@@ -33,6 +38,7 @@ export default function ResultPage() {
   const [resultData, setResultData] = useState<MbtiTypeData | null>(null)
   const resultRef = useRef<HTMLDivElement>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [showAllMbti, setShowAllMbti] = useState(false)
 
   useEffect(() => {
     if (!mbti) return
@@ -42,9 +48,13 @@ export default function ResultPage() {
     setIsLoading(false)
   }, [mbti])
 
-  const handleCoupangClick = () => {
-    window.open("https://link.coupang.com/a/cFdti6", "_blank")
-    router.push(`/result?mbti=${mbti}&clicked=true`)
+  const shareText = `나의 햄찌 성격은 ${resultData?.name.split(" - ")[1]}! 너는 어떤 햄찌야? #햄찌MBTI`
+  const shareUrl = typeof window !== "undefined" ? 
+    `${window.location.origin}${window.location.pathname}?mbti=${mbti}&clicked=true` : ""
+
+  const handleShare = () => {
+    navigator.clipboard.writeText(`${shareText}\n${shareUrl}`)
+    alert("링크가 클립보드에 복사되었습니다!")
   }
 
   if (isLoading || !resultData) {
@@ -55,65 +65,6 @@ export default function ResultPage() {
     )
   }
 
-  // 결과를 보여주기 전에 쿠팡 링크 클릭 유도 화면
-  if (!clicked) {
-    return (
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="flex min-h-screen flex-col items-center justify-center bg-slate-50 p-4"
-      >
-        <Card className="w-full max-w-2xl rounded-xl border-none bg-white shadow-lg">
-          <CardHeader className="text-center">
-            <CardTitle className="text-2xl font-bold text-slate-800">
-              결과가 준비되었어요!
-            </CardTitle>
-            <p className="text-slate-600 mt-2">
-              아래 링크를 확인하고 나의 햄찌 성격을 알아보세요!
-            </p>
-            <p className="text-slate-500 text-sm mt-1">
-              (결과를 보기 위해서는 링크를 확인해주세요)
-            </p>
-          </CardHeader>
-          <CardContent className="flex flex-col items-center p-6 gap-6">
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-              {mbtiTypes.slice(0, 6).map((type) => (
-                <div
-                  key={type.id}
-                  className="relative w-32 h-32 sm:w-40 sm:h-40 bg-white rounded-lg overflow-hidden"
-                >
-                  <Image
-                    src={`/images/mbti/${type.id.toLowerCase()}.png`}
-                    alt="햄찌MBTI 미리보기 이미지"
-                    fill
-                    className="object-contain blur-sm hover:blur-md transition-all"
-                    priority
-                  />
-                </div>
-              ))}
-            </div>
-            <Button
-              onClick={handleCoupangClick}
-              className="w-full px-6 py-6 text-lg font-semibold text-white bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 transition-all transform hover:scale-105"
-            >
-              링크 확인 후 결과보기 🛍️
-            </Button>
-          </CardContent>
-        </Card>
-      </motion.div>
-    )
-  }
-
-  const shareText = `나의 햄찌 성격은 ${resultData.id} - ${resultData.name.split(" - ")[1]}! 너는 어떤 햄찌야? #햄찌MBTI`
-  const shareUrl = typeof window !== "undefined" ? 
-    `${window.location.origin}${window.location.pathname}?mbti=${mbti}&clicked=true` : ""
-
-  const handleShare = () => {
-    navigator.clipboard.writeText(`${shareText}\n${shareUrl}`)
-    alert("링크가 클립보드에 복사되었습니다!")
-  }
-
-  // 결과 화면
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -143,9 +94,7 @@ export default function ResultPage() {
                     priority
                   />
                   <h2 className="mb-3 sm:mb-4 text-2xl sm:text-3xl font-bold text-blue-600">
-                    <span className="block sm:inline">{resultData.id}</span>
-                    <span className="hidden sm:inline"> - </span>
-                    <span className="block sm:inline">{resultData.name.split(" - ")[1]}</span>
+                    <span className="block">{resultData.name.split(" - ")[1]}</span>
                   </h2>
                   <div className="flex flex-wrap justify-center gap-2 mt-6">
                     {resultData.keywords.map((keyword, index) => (
@@ -232,13 +181,13 @@ export default function ResultPage() {
                 <div className="grid grid-cols-1 gap-3 sm:gap-4">
                   {resultData.goodMatches.map((match) => (
                     <Card key={match.type} className="flex items-center p-4 sm:p-5 border-none bg-gradient-to-br from-blue-50 to-violet-50 hover:from-blue-100 hover:to-violet-100 transition-colors rounded-2xl">
-                      <div className="overflow-hidden rounded-2xl h-[140px] sm:h-[160px] bg-white flex items-center">
+                      <div className="overflow-hidden rounded-2xl h-[140px] sm:h-[160px]">
                         <Image
                           src={`/images/mbti/${match.type.toLowerCase()}.png`}
                           alt={match.type}
                           width={160}
                           height={160}
-                          className="h-full w-auto object-contain"
+                          className="h-full w-auto object-contain rounded-2xl"
                         />
                       </div>
                       <div className="flex-1 pl-5">
@@ -258,13 +207,13 @@ export default function ResultPage() {
                 <div className="grid grid-cols-1 gap-3 sm:gap-4">
                   {resultData.badMatches.map((match) => (
                     <Card key={match.type} className="flex items-center p-4 sm:p-5 border-none bg-gradient-to-br from-rose-50 to-orange-50 hover:from-rose-100 hover:to-orange-100 transition-colors rounded-2xl">
-                      <div className="overflow-hidden rounded-2xl h-[140px] sm:h-[160px] bg-white flex items-center">
+                      <div className="overflow-hidden rounded-2xl h-[140px] sm:h-[160px]">
                         <Image
                           src={`/images/mbti/${match.type.toLowerCase()}.png`}
                           alt={match.type}
                           width={160}
                           height={160}
-                          className="h-full w-auto object-contain"
+                          className="h-full w-auto object-contain rounded-2xl"
                         />
                       </div>
                       <div className="flex-1 pl-5">
@@ -277,6 +226,12 @@ export default function ResultPage() {
               </motion.div>
 
               <motion.div variants={item} className="flex flex-col gap-3 sm:gap-4">
+                <Button
+                  onClick={() => setShowAllMbti(true)}
+                  className="w-full bg-gradient-to-r from-violet-500 to-indigo-500 hover:from-violet-600 hover:to-indigo-600 px-4 py-4 sm:px-6 sm:py-5 text-base sm:text-lg font-semibold text-white transition-colors"
+                >
+                  내 햄찌 MBTI 보기 🐹
+                </Button>
                 <Button
                   onClick={handleShare}
                   className="w-full bg-gradient-to-r from-blue-500 to-violet-500 hover:from-blue-600 hover:to-violet-600 px-4 py-4 sm:px-6 sm:py-5 text-base sm:text-lg font-semibold text-white transition-colors"
@@ -293,6 +248,30 @@ export default function ResultPage() {
           </motion.div>
         </CardContent>
       </Card>
+
+      <Dialog open={showAllMbti} onOpenChange={setShowAllMbti}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold text-center mb-4">전체 햄찌 MBTI</DialogTitle>
+          </DialogHeader>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {mbtiTypes.map((type) => (
+              <div key={type.id} className="flex flex-col items-center p-2 rounded-lg hover:bg-slate-50 transition-colors">
+                <div className="relative w-24 h-24 sm:w-32 sm:h-32">
+                  <Image
+                    src={`/images/mbti/${type.id.toLowerCase()}.png`}
+                    alt={type.name}
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+                <p className="text-sm font-semibold text-center mt-2">{type.name.split(" - ")[1]}</p>
+                <p className="text-xs text-slate-500 text-center">{type.id}</p>
+              </div>
+            ))}
+          </div>
+        </DialogContent>
+      </Dialog>
     </motion.div>
   )
 }
