@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { ThemeProvider } from "@/components/theme-provider"
+import Script from "next/script"
 
 export const metadata: Metadata = {
   title: '햄찌MBTI - 나의 햄찌 성격 유형 테스트',
@@ -70,8 +72,30 @@ export default function RootLayout({
     <html lang="ko">
       <head>
         <meta name="naver-site-verification" content="네이버 서치어드바이저 인증 코드" />
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-CWW5Y3QPC6"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-CWW5Y3QPC6');
+          `}
+        </Script>
       </head>
-      <body>{children}</body>
+      <body>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   )
 }
