@@ -23,6 +23,7 @@ export interface MbtiTypeData {
   imagePath?: string // 새로 추가된 이미지 경로
   goodMatches: { type: string; reason: string; imageQuery: string }[]
   badMatches: { type: string; reason: string; imageQuery: string }[]
+  keywords: string[] // 각 유형별 MZ 스타일 키워드
 }
 
 // Questions for the quiz
@@ -243,6 +244,17 @@ export const mbtiTypes: MbtiTypeData[] = [
         reason: "너무 즉흥적이고 규칙을 잘 따르지 않아 힘들어요",
         imageQuery: "free spirited creative hamster"
       }
+    ],
+    keywords: [
+      "계획 없으면 손떨리는 사람임ㅇㅇ",
+      "그게 맞는 건가..?(꼼꼼 체크)",
+      "시간 약속 어기면 빡침주의",
+      "거참 요즘 애들은...(올드한 마인드)",
+      "내 계획이 곧 법임",
+      "할거면 제대로 하자!",
+      "어떻게 이런 실수를...(한숨)",
+      "나만의 체계적인 시스템 장인",
+      "그래도 원칙이 있는 거지~"
     ]
   },
   {
@@ -290,6 +302,17 @@ export const mbtiTypes: MbtiTypeData[] = [
         reason: "너무 도전적이고 변화를 많이 추구해서 불안해요",
         imageQuery: "innovative debater hamster"
       }
+    ],
+    keywords: [
+      "남 챙기는거 떵상인 거 맞음",
+      "속으로 다 계산 완료함ㅋ",
+      "누가 아프다고? 내가 간다!",
+      "기억력 미쳤다고 전해라",
+      "너가 좋다면 나도 좋아~",
+      "배려 만렙 찍었음",
+      "전통의 수호자라고 할 수 있죠",
+      "누가 내 도움이 필요하다고?",
+      "이 정도는 기본인거 알지?"
     ]
   },
   {
@@ -337,6 +360,17 @@ export const mbtiTypes: MbtiTypeData[] = [
         reason: "너무 즉흥적이고 현실적이라 이해하기 어려워요",
         imageQuery: "energetic practical hamster"
       }
+    ],
+    keywords: [
+      "이 세상 사람 맞냐고요..",
+      "내 직감 믿고 갑니다 가보자고~",
+      "세상을 바꾸고 싶은 영혼",
+      "혼자만의 시간 절대필수",
+      "이상과 현실의 딜레마..",
+      "너의 눈빛이 말하고 있어..",
+      "완벽을 추구하는 나침반",
+      "내 상상력 미쳤다고 전해라",
+      "깊은 대화 가보자고~"
     ]
   },
   {
@@ -384,6 +418,17 @@ export const mbtiTypes: MbtiTypeData[] = [
         reason: "너무 즉흥적이고 감정적이라 피곤해요",
         imageQuery: "cheerful spontaneous hamster"
       }
+    ],
+    keywords: [
+      "전략적 천재 그 자체",
+      "나의 계획은 완벽하다",
+      "감정은 잠시 넣어두겠습니다",
+      "이미 다 예측했다고요",
+      "비효율적인건 못참지ㅎ",
+      "나만의 세계관 장인",
+      "어림도 없는 소리하고 계시네요",
+      "혁신 그 자체인 나",
+      "이미 시뮬레이션 완료함"
     ]
   },
   {
@@ -431,6 +476,17 @@ export const mbtiTypes: MbtiTypeData[] = [
         reason: "너무 감정적이고 간섭이 심해요",
         imageQuery: "charismatic empathetic hamster"
       }
+    ],
+    keywords: [
+      "뭐든 분해하면 직성이 풀림",
+      "위기상황에서 존재감 폭발",
+      "말보다는 행동으로 보여줄게요",
+      "효율적인게 최고시다이",
+      "귀찮은건 못하겠어요 패스~",
+      "관찰력 미쳤다고 전해라",
+      "나는 자유가 좋아요",
+      "뭐든 혼자 해결 가능",
+      "논리적 분석 완료했습니다"
     ]
   },
   {
@@ -478,6 +534,17 @@ export const mbtiTypes: MbtiTypeData[] = [
         reason: "너무 계획적이고 통제하려 들어요",
         imageQuery: "commanding visionary hamster"
       }
+    ],
+    keywords: [
+      "오늘의 기분에 따라 삽니다",
+      "나만의 감성 찾아 여행중",
+      "자유로운 영혼 그 자체",
+      "아무도 날 가두지 마",
+      "내 취향 존중해주세요",
+      "평화주의자 맞습니다만?",
+      "갑자기 하고 싶은게 생겼어요",
+      "나는 나다! 그 자체로 완벽",
+      "감성 충만 지금 이 순간"
     ]
   },
   {
@@ -525,6 +592,17 @@ export const mbtiTypes: MbtiTypeData[] = [
         reason: "너무 현실적이고 규칙을 강조해서 답답해요",
         imageQuery: "organized leader hamster"
       }
+    ],
+    keywords: [
+      "나로 태어나서 럭키비키~",
+      "세상에 영감을 주는 중",
+      "몽상가라서 행복한 사람",
+      "이상적인 세상을 꿈꾸는 중",
+      "감정이 너무 풍부한데요?",
+      "나만의 동화 속 주인공",
+      "순수함이 매력포인트",
+      "내적 성장 중입니다",
+      "오늘도 행복을 찾아서~"
     ]
   },
   {
@@ -572,6 +650,17 @@ export const mbtiTypes: MbtiTypeData[] = [
         reason: "너무 감정적이고 사교적이라 피곤해요",
         imageQuery: "warm supportive hamster"
       }
+    ],
+    keywords: [
+      "분석하다가 해 뜨겠네요",
+      "궁금한게 너무 많은 사람",
+      "토론 시작하면 멈출 수 없음",
+      "나만의 세계에 빠져있는 중",
+      "논리적 사고 장인",
+      "효율성을 추구하는 완벽주의자",
+      "지식이 곧 힘이다!",
+      "이게 왜 이런지 알아보자",
+      "새로운 아이디어 뿜뿜"
     ]
   },
   {
@@ -619,6 +708,17 @@ export const mbtiTypes: MbtiTypeData[] = [
         reason: "너무 깊은 생각에 잠겨 이해하기 어려워요",
         imageQuery: "insightful mysterious hamster"
       }
+    ],
+    keywords: [
+      "일단 해보고 후회하자!",
+      "스릴과 자유를 사랑하는 중",
+      "계획이 뭐죠? 먹는건가요?",
+      "지금 이 순간을 즐기자고~",
+      "나는 액션이 필요해!",
+      "현실주의자 만렙 찍음",
+      "문제해결 능력자라고 전해라",
+      "재미없으면 의미없음",
+      "도전은 나의 힘!"
     ]
   },
   {
@@ -666,6 +766,17 @@ export const mbtiTypes: MbtiTypeData[] = [
         reason: "너무 계획적이고 논리적이라 답답해요",
         imageQuery: "strategic mastermind hamster"
       }
+    ],
+    keywords: [
+      "분위기 메이커는 나야나~",
+      "오늘도 파티 주인공",
+      "재미없으면 인생이 아님",
+      "즉흥적인게 내 매력임",
+      "나는 걸어다니는 햇살이야✨",
+      "관심 주는거 좋아합니다",
+      "지금 이 순간이 행복해",
+      "새로운 도전 환영해요",
+      "인싸력 만렙 찍었음"
     ]
   },
   {
@@ -713,6 +824,17 @@ export const mbtiTypes: MbtiTypeData[] = [
         reason: "너무 규칙적이고 현실적이라 답답해요",
         imageQuery: "organized responsible hamster"
       }
+    ],
+    keywords: [
+      "아이디어 뱅크 그 자체",
+      "에너지가 무한한 사람임",
+      "새로운거 너무 좋아요!!",
+      "영감 받는 중이니 말걸지마",
+      "이 세상 모든게 흥미로워..",
+      "자유로운 영혼 충전중",
+      "가능성이 무한한 사람",
+      "나는야 에너자이저~",
+      "긍정적인게 최고시다이"
     ]
   },
   {
@@ -760,6 +882,17 @@ export const mbtiTypes: MbtiTypeData[] = [
         reason: "너무 감정적이고 보수적이라 답답해요",
         imageQuery: "caring protective hamster"
       }
+    ],
+    keywords: [
+      "토론 한판 뜰까요?",
+      "아이디어 뱅크 풀가동중",
+      "호기심 대마왕이에요",
+      "나의 창의력은 무한해~",
+      "일단 도전해보는거에요",
+      "논리력 만렙 찍었음",
+      "새로운 관점 제시하는 중",
+      "나는 혁신가에요~",
+      "생각의 한계는 없다고 봄"
     ]
   },
   {
@@ -807,6 +940,17 @@ export const mbtiTypes: MbtiTypeData[] = [
         reason: "너무 이상주의적이고 비현실적이라 답답해요",
         imageQuery: "dreamy idealistic hamster"
       }
+    ],
+    keywords: [
+      "체계적인게 최고시다이",
+      "시간 관리의 달인임",
+      "계획이 곧 나의 삶이야",
+      "리더십 그 자체라고 할 수 있죠",
+      "효율성 찾아 삼만리~",
+      "책임감 만렙 찍었음",
+      "완벽한 결과를 추구해요",
+      "규칙은 지켜야죠 당연히",
+      "목표 달성은 필수입니다"
     ]
   },
   {
@@ -854,6 +998,17 @@ export const mbtiTypes: MbtiTypeData[] = [
         reason: "너무 논리적이고 감정 표현이 없어서 답답해요",
         imageQuery: "logical thoughtful hamster"
       }
+    ],
+    keywords: [
+      "인싸 중의 인싸라고 할 수 있죠",
+      "남 챙기는게 행복해요",
+      "분위기 메이커 그 자체",
+      "조화로움이 최고시다이",
+      "모두가 행복했으면 좋겠어요",
+      "책임감 넘치는 사람임",
+      "따뜻한 마음씨 장인",
+      "배려왕이라고 전해라",
+      "사회성 만렙 찍었음"
     ]
   },
   {
@@ -901,6 +1056,17 @@ export const mbtiTypes: MbtiTypeData[] = [
         reason: "너무 독립적이고 감정 표현이 적어서 답답해요",
         imageQuery: "handy practical hamster"
       }
+    ],
+    keywords: [
+      "영향력 있는 리더 그 자체",
+      "모두의 멘토가 되고 싶어요",
+      "세상을 바꾸고 싶은 사람",
+      "따뜻한 카리스마 장인",
+      "공감 능력자라고 전해라",
+      "이상적인 세상을 꿈꾸는 중",
+      "긍정적 에너지 뿜뿜",
+      "사람들을 이끄는게 행복해요",
+      "나는야 분위기 리더~"
     ]
   },
   {
@@ -948,6 +1114,17 @@ export const mbtiTypes: MbtiTypeData[] = [
         reason: "너무 즉흥적이고 계획이 없어서 답답해요",
         imageQuery: "artistic free-spirited hamster"
       }
+    ],
+    keywords: [
+      "리더는 타고난거라고 봄",
+      "전략적 천재 인정?",
+      "목표 달성은 필수임",
+      "비전 제시하는 사람",
+      "효율성 찾아 삼만리~",
+      "완벽주의자 그 자체",
+      "나의 카리스마는 세계관급",
+      "성공이 곧 나의 삶",
+      "혁신을 이끄는 리더"
     ]
   }
 ]

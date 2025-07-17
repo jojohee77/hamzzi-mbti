@@ -31,7 +31,6 @@ export default function ResultPage() {
   const mbti = searchParams.get("mbti")
   const clicked = searchParams.get("clicked")
   const [resultData, setResultData] = useState<MbtiTypeData | null>(null)
-  const [showResult, setShowResult] = useState<boolean>(false)
   const resultRef = useRef<HTMLDivElement>(null)
   const [isLoading, setIsLoading] = useState(true)
 
@@ -40,13 +39,11 @@ export default function ResultPage() {
 
     const data = mbtiTypes.find((type) => type.id === mbti)
     setResultData(data || null)
-    setShowResult(clicked === "true")
     setIsLoading(false)
-  }, [mbti, clicked])
+  }, [mbti])
 
   const handleCoupangClick = () => {
     window.open("https://link.coupang.com/a/cFdti6", "_blank")
-    // URL 파라미터로 상태 업데이트
     router.push(`/result?mbti=${mbti}&clicked=true`)
   }
 
@@ -59,7 +56,7 @@ export default function ResultPage() {
   }
 
   // 결과를 보여주기 전에 쿠팡 링크 클릭 유도 화면
-  if (!showResult) {
+  if (!clicked) {
     return (
       <motion.div
         initial={{ opacity: 0 }}
@@ -115,26 +112,6 @@ export default function ResultPage() {
     alert("링크가 클립보드에 복사되었습니다!")
   }
 
-  const handleSaveImage = async () => {
-    if (resultRef.current) {
-      try {
-        const canvas = await html2canvas(resultRef.current, {
-          useCORS: true,
-          scale: 2,
-          backgroundColor: "#fdf2f8" // pink-50 배경색
-        })
-        
-        const link = document.createElement("a")
-        link.download = `hamzzi-mbti-${resultData?.id.toLowerCase()}.png`
-        link.href = canvas.toDataURL("image/png")
-        link.click()
-      } catch (error) {
-        console.error("Error saving image:", error)
-        alert("이미지 저장 중 오류가 발생했습니다.")
-      }
-    }
-  }
-
   // 결과 화면
   return (
     <motion.div
@@ -169,16 +146,29 @@ export default function ResultPage() {
                     <span className="hidden sm:inline"> - </span>
                     <span className="block sm:inline">{resultData.name.split(" - ")[1]}</span>
                   </h2>
-                  <p className="text-base sm:text-lg text-slate-600">{resultData.description}</p>
+                  <div className="flex flex-wrap justify-center gap-2 mt-6">
+                    {resultData.keywords.map((keyword, index) => (
+                      <div
+                        key={index}
+                        className="inline-flex items-center rounded-full bg-gradient-to-r from-blue-100/95 to-indigo-100/95 px-3.5 py-1.5 text-[13px] sm:text-sm text-slate-700 hover:from-blue-200/95 hover:to-indigo-200/95 transition-all backdrop-blur-sm border border-blue-200 shadow-sm hover:shadow-md whitespace-nowrap"
+                      >
+                        {keyword}
+                      </div>
+                    ))}
+                  </div>
                 </motion.div>
               </div>
 
-              <motion.div variants={item} className="mt-8 mb-6 sm:mb-8">
+              <motion.div variants={item} className="mt-8 sm:mt-10 mb-6 sm:mb-8">
                 <h3 className="mb-3 sm:mb-4 text-lg sm:text-xl font-semibold text-blue-700 flex items-center gap-2">
                   <span className="bg-blue-100 p-1.5 rounded-lg">✨</span>
                   성격 특성
                 </h3>
                 <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                  <li className="flex items-center rounded-lg bg-slate-50 p-3 text-sm sm:text-base text-slate-700 hover:bg-slate-100 transition-colors col-span-2">
+                    <span className="mr-2 text-blue-500">•</span>
+                    {resultData.description}
+                  </li>
                   {resultData.characteristics.map((trait, index) => (
                     <li key={index} className="flex items-center rounded-lg bg-slate-50 p-3 text-sm sm:text-base text-slate-700 hover:bg-slate-100 transition-colors">
                       <span className="mr-2 text-blue-500">•</span>
@@ -291,12 +281,6 @@ export default function ResultPage() {
                   className="w-full bg-gradient-to-r from-blue-500 to-violet-500 hover:from-blue-600 hover:to-violet-600 px-4 py-4 sm:px-6 sm:py-5 text-base sm:text-lg font-semibold text-white transition-colors"
                 >
                   링크 복사
-                </Button>
-                <Button
-                  onClick={handleSaveImage}
-                  className="w-full bg-gradient-to-r from-emerald-500 to-blue-500 hover:from-emerald-600 hover:to-blue-600 px-4 py-4 sm:px-6 sm:py-5 text-base sm:text-lg font-semibold text-white transition-colors"
-                >
-                  이미지 저장
                 </Button>
                 <Link href="/" className="w-full">
                   <Button className="w-full bg-slate-200 hover:bg-slate-300 px-4 py-4 sm:px-6 sm:py-5 text-base sm:text-lg font-semibold text-slate-700 transition-colors">

@@ -11,9 +11,7 @@ interface QuestionCardProps {
   onAnswer: (questionId: string, dimension: MbtiDimension) => void
   currentAnswer?: MbtiDimension
   onNext: () => void
-  onPrev: () => void
   isLastQuestion: boolean
-  isFirstQuestion: boolean
   currentQuestionIndex: number
   totalQuestions: number
 }
@@ -23,13 +21,16 @@ export function QuestionCard({
   onAnswer,
   currentAnswer,
   onNext,
-  onPrev,
   isLastQuestion,
-  isFirstQuestion,
   currentQuestionIndex,
   totalQuestions,
 }: QuestionCardProps) {
   const progress = ((currentQuestionIndex + 1) / totalQuestions) * 100
+
+  const handleOptionClick = (dimension: MbtiDimension) => {
+    onAnswer(question.id, dimension);
+    onNext();
+  };
 
   return (
     <AnimatePresence mode="wait">
@@ -63,29 +64,11 @@ export function QuestionCard({
                       ? "bg-gradient-to-r from-blue-500 to-violet-500 text-white hover:from-blue-600 hover:to-violet-600"
                       : "hover:border-blue-300 hover:bg-slate-50"
                   }`}
-                  onClick={() => onAnswer(question.id, option.dimension)}
+                  onClick={() => handleOptionClick(option.dimension)}
                 >
                   {option.text}
                 </Button>
               ))}
-            </div>
-
-            <div className="mt-6 sm:mt-8 flex justify-between gap-3 sm:gap-4">
-              <Button
-                variant="outline"
-                onClick={onPrev}
-                disabled={isFirstQuestion}
-                className="w-1/2 py-4 sm:py-5 text-base sm:text-lg hover:bg-slate-50"
-              >
-                이전
-              </Button>
-              <Button
-                onClick={onNext}
-                disabled={!currentAnswer}
-                className="w-1/2 py-4 sm:py-5 text-base sm:text-lg bg-gradient-to-r from-blue-500 to-violet-500 hover:from-blue-600 hover:to-violet-600"
-              >
-                {isLastQuestion ? "링크방문후 결과보기 🎁" : "다음"}
-              </Button>
             </div>
           </CardContent>
         </Card>

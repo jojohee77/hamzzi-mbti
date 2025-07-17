@@ -19,17 +19,8 @@ export default function QuizPage() {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1)
     } else {
-      const mbtiResult = calculateMbti(answers)
-      // 쿠팡 링크를 새 창에서 열기
-      window.open("https://link.coupang.com/a/cFdti6", "_blank")
-      // clicked=true 파라미터를 추가하여 결과 페이지로 이동
-      router.push(`/result?mbti=${mbtiResult}&clicked=true`)
-    }
-  }
-
-  const handlePrev = () => {
-    if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex(currentQuestionIndex - 1)
+      const result = calculateMbti(answers)
+      router.push(`/result?mbti=${result}`)
     }
   }
 
@@ -72,9 +63,7 @@ export default function QuizPage() {
         onAnswer={handleAnswer}
         currentAnswer={currentAnswer}
         onNext={handleNext}
-        onPrev={handlePrev}
         isLastQuestion={currentQuestionIndex === questions.length - 1}
-        isFirstQuestion={currentQuestionIndex === 0}
         currentQuestionIndex={currentQuestionIndex}
         totalQuestions={questions.length}
       />
