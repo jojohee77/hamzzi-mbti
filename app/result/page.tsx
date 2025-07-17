@@ -105,7 +105,8 @@ export default function ResultPage() {
   }
 
   const shareText = `나의 햄찌 성격은 ${resultData.id} - ${resultData.name.split(" - ")[1]}! 너는 어떤 햄찌야? #햄찌MBTI`
-  const shareUrl = typeof window !== "undefined" ? window.location.href : ""
+  const shareUrl = typeof window !== "undefined" ? 
+    `${window.location.origin}${window.location.pathname}?mbti=${mbti}&clicked=true` : ""
 
   const handleShare = () => {
     navigator.clipboard.writeText(`${shareText}\n${shareUrl}`)
